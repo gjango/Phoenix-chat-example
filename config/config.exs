@@ -13,7 +13,11 @@ config :chat,
 # Configures the endpoint
 config :chat, ChatWeb.Endpoint,
   url: [host: "localhost"],
-  secret_key_base: "B1/lHcRWBn1I9WenGINix4hEWcrI3TIk5a1SL1tRzDXqY/vSR5n9RcQYzwpcshkE",
+  secret_key_base: System.get_env("SECRET_KEY_BASE") ||
+  raise """
+  environment variable SECRET_KEY_BASE is missing.
+  You can generate one by calling: mix phx.gen.secret
+  """,
   render_errors: [view: ChatWeb.ErrorView, accepts: ~w(html json)],
   pubsub: [name: Chat.PubSub, adapter: Phoenix.PubSub.PG2]
 
